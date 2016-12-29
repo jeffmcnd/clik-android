@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1057168378793",
+    "firebase_url": "https://clik-e3afb.firebaseio.com",
+    "project_id": "clik-e3afb",
+    "storage_bucket": "clik-e3afb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057168378793:android:e5628f024bcdda6e",
+        "android_client_info": {
+          "package_name": "xyz.mcnallydawes.clik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1057168378793-tvctpoprjju86h970u0ljsgaelnf0nbd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.mcnallydawes.clik",
+            "certificate_hash": "EFBDD96513B75ACBB00B182DC6D01A12275CC7C1"
+          }
+        },
+        {
+          "client_id": "1057168378793-q7uucluvhsgk77snlqkp4qovkg26444h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDkb5TSLyT6Kr-cOa6OZbD953WhkZQhkM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1057168378793-q7uucluvhsgk77snlqkp4qovkg26444h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Clik</string>
+
+    <string name="sign_in_email">Email</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="sign_in_success">Successfully signed in!</string>
+    <string name="sign_in_failure">Failed to sign in. Email of password incorrect.</string>
+
+    <string name="sign_up_success">Successfully signed up!</string>
+    <string name="sign_up_failure">Failed to sign up.</string>
+    <string name="sign_up_button">Sign Up</string>
+</resources>
