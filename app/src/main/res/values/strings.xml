@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Clik</string>
 
+    <string name="facebook_app_id">1638173773150943</string>
+    <string name="fb_login_protocol_scheme">fb1638173773150943</string>
+
     <string name="sign_in_email">Email</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_button">Sign In</string>
@@ -10,4 +13,6 @@
     <string name="sign_up_success">Successfully signed up!</string>
     <string name="sign_up_failure">Failed to sign up.</string>
     <string name="sign_up_button">Sign Up</string>
+
+    <string name="facebook_sign_up_button">Login with Facebook</string>
 </resources>

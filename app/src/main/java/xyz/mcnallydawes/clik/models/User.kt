@@ -1,17 +1,21 @@
 package xyz.mcnallydawes.clik.models
 
-class User {
-    var email: String = ""
-    var password: String = ""
-    var info: String = ""
-    var career: String = ""
-    var lat: Float = 0f
-    var lng: Float = 0f
-    var age: Int = 0
-    var firstName: String = ""
-    var lastName: String = ""
-    var lowerAge: Int = 0
-    var upperAge: Int = 0
-    var shouldGetPush: Boolean = true
+import java.util.*
 
+class User {
+    lateinit var email: String
+    lateinit var info: String
+    lateinit var career: String
+    var lat: Double = 0.0
+    var lng: Double = 0.0
+    var age: Int = 0
+    lateinit var firstName: String
+    lateinit var lastName: String
+    var lowerAge: Int = 18
+    var upperAge: Int = 50
+    var shouldGetPush: Boolean = true
+    lateinit var pictures: ArrayList<Picture>
+    lateinit var show: ArrayList<Gender>
+    lateinit var gender: Gender
+    lateinit var birthday: String
 }

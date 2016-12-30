@@ -46,6 +46,8 @@ dependencies {
     compile 'com.google.firebase:firebase-core:10.0.1'
     testCompile 'junit:junit:4.12'
     kapt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
+    compile 'gun0912.ted:tedpermission:1.0.0'
 }
 
 repositories {
