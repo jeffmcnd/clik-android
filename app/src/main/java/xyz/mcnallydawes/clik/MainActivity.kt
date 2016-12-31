@@ -2,7 +2,6 @@ package xyz.mcnallydawes.clik
 
 import android.Manifest
 import android.app.Activity
-import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +25,8 @@ import java.util.*
 class MainActivity : Activity(),
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener,
+        ClikImageView.UserChoiceListener {
 
     val TAG = "MainActivity"
 
@@ -113,6 +113,8 @@ class MainActivity : Activity(),
             }
         })
 
+        userIv.setUserChoiceListener(this)
+
     }
 
     override fun onConnected(bundle: Bundle?) {
@@ -142,5 +144,14 @@ class MainActivity : Activity(),
             currentUserRef.child("lat").setValue(location.latitude)
             currentUserRef.child("lng").setValue(location.longitude)
         }
+    }
+
+    override fun onYay() {
+//        TODO: create a partial match for like user and current user
+//        TODO: animate image to indicate match, remove color filter, load new user
+    }
+
+    override fun onNay() {
+//        TODO: animate image to indicate match, remove color filter, load new user
     }
 }
