@@ -1,8 +1,6 @@
 package xyz.mcnallydawes.clik.models
 
-import java.util.*
-
 class Picture {
-    lateinit var url: String
-    lateinit var expirationDate: Date
+    var url = String()
+    var expirationDate: Long = 0
 }

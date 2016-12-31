@@ -9,7 +9,7 @@
         android:layout_weight="1"
         android:padding="16dp">
 
-        <ImageView
+        <xyz.mcnallydawes.clik.ClikImageView
             android:id="@+id/user_iv"
             android:layout_width="match_parent"
             android:layout_height="400dp" />

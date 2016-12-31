@@ -96,7 +96,6 @@ class LoginActivity : Activity() {
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful) {
-//                TODO: go to next activity, you're signed in!
                 Toast.makeText(context, R.string.sign_in_success, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(context, R.string.sign_in_failure, Toast.LENGTH_LONG).show();
@@ -121,8 +120,6 @@ class LoginActivity : Activity() {
                                     localUser.career = ""
                                     localUser.firstName = jsonObject.getString("first_name")
                                     localUser.lastName = jsonObject.getString("last_name")
-                                    localUser.pictures = ArrayList<Picture>()
-                                    localUser.show = ArrayList<Gender>()
 
                                     val gender = jsonObject.getString("gender")
                                     if(gender == "male") {
