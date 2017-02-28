@@ -50,18 +50,11 @@
         android:padding="16dp">
 
         <Button
-            android:id="@+id/nay_btn"
+            android:id="@+id/logout_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/nay_btn"/>
-
-        <Button
-            android:id="@+id/yay_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/yay_btn"/>
+            android:text="Logout"/>
 
     </LinearLayout>
 

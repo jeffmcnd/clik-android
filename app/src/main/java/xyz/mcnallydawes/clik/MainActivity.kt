@@ -2,6 +2,7 @@ package xyz.mcnallydawes.clik
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -99,6 +101,14 @@ class MainActivity : Activity(), ClikImageView.UserChoiceListener {
 
         userIv.setUserChoiceListener(this)
 
+    }
+
+    @OnClick(R.id.logout_btn)
+    fun logout() {
+        auth.signOut()
+        val intent = Intent(this, LoginActivity().javaClass)
+        startActivity(intent)
+        finish()
     }
 
     override fun onYay() {

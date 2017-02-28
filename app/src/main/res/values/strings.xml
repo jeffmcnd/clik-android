@@ -15,7 +15,4 @@
     <string name="sign_up_button">Sign Up</string>
 
     <string name="facebook_sign_up_button">Login with Facebook</string>
-
-    <string name="yay_btn">Yay</string>
-    <string name="nay_btn">Nay</string>
 </resources>
