@@ -3,7 +3,8 @@ package xyz.mcnallydawes.clik
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -12,13 +13,7 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import xyz.mcnallydawes.clik.models.Gender
-import xyz.mcnallydawes.clik.models.Picture
 import xyz.mcnallydawes.clik.models.User
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +31,9 @@ class LoginActivity : Activity() {
     @BindView(R.id.facebook_sign_in_button)
     lateinit var facebookBtn: LoginButton
 
+    @BindView(R.id.login_progress)
+    lateinit var progressBar: ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -43,11 +41,12 @@ class LoginActivity : Activity() {
 
         auth = FirebaseAuth.getInstance()
         authListener = FirebaseAuth.AuthStateListener {
-            var user = it.currentUser
+            val user = it.currentUser
             if(user != null) {
-                checkIfUserExists(user)
+                goToMainActivity()
             } else {
-
+                progressBar.visibility = View.GONE
+                facebookBtn.visibility = View.VISIBLE
             }
         }
 
@@ -96,82 +95,74 @@ class LoginActivity : Activity() {
         val credential = FacebookAuthProvider.getCredential(token.token)
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful) {
-                Toast.makeText(context, R.string.sign_in_success, Toast.LENGTH_LONG).show();
+                initUserInDb(it.result.user.uid)
             } else {
-                Toast.makeText(context, R.string.sign_in_failure, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, R.string.sign_in_failure, Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    private fun checkIfUserExists(user: FirebaseUser) {
-        val userRef = database.getReference("user")
-        userRef.equalTo(user.uid, "uid")
-        userRef.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot?) {
-                if(snapshot == null || snapshot.value == null) {
-                    val request = GraphRequest.newMeRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            GraphRequest.GraphJSONObjectCallback {
-                                jsonObject, graphResponse ->
-                                if(jsonObject != null && graphResponse.error == null) {
-                                    val localUser = User()
-                                    localUser.email = jsonObject.getString("email")
-                                    localUser.info = ""
-                                    localUser.career = ""
-                                    localUser.firstName = jsonObject.getString("first_name")
-                                    localUser.lastName = jsonObject.getString("last_name")
+    private fun initUserInDb(uid: String) {
+        val usersRef = database.getReference("users")
+        val request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(), {
+            jsonObject, graphResponse ->
+            if (jsonObject != null && graphResponse.error == null) {
+                val localUser = User()
+                localUser.email = jsonObject.getString("email")
+                localUser.info = ""
+                localUser.career = ""
+                localUser.school = ""
+                localUser.firstName = jsonObject.getString("first_name")
+                localUser.lastName = jsonObject.getString("last_name")
+                localUser.searchName = localUser.firstName.toLowerCase() + " " + localUser.lastName.toLowerCase()
+                localUser.gender = jsonObject.getString("gender")
 
-                                    val gender = jsonObject.getString("gender")
-                                    if(gender == "male") {
-                                        localUser.gender = Gender.MALE
-                                    } else if(gender == "female") {
-                                        localUser.gender = Gender.FEMALE
-                                    } else {
-                                        localUser.gender = Gender.OTHER
-                                    }
+                if(jsonObject.has("picture")) {
+                    val imageUrl = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url")
+                    localUser.imageUrl = imageUrl
+                    localUser.smallImageUrl = imageUrl
+                }
+                if(localUser.gender == Constants.GENDER_MALE) localUser.lookingFor = Constants.GENDER_FEMALE
+                if(localUser.gender == Constants.GENDER_FEMALE) localUser.lookingFor = Constants.GENDER_MALE
 
-                                    try {
-                                        val birthday = jsonObject.getString("birthday")
-                                        val dateFormat = SimpleDateFormat("""MM/dd/yyyy""")
-                                        val parsedDate = dateFormat.parse(birthday)
-                                        val calBirth = Calendar.getInstance()
-                                        calBirth.time = parsedDate
+                try {
+                    val birthday = jsonObject.getString("birthday")
+                    val dateFormat = SimpleDateFormat("""MM/dd/yyyy""")
+                    val parsedDate = dateFormat.parse(birthday)
+                    val calBirth = Calendar.getInstance()
+                    calBirth.time = parsedDate
 
-                                        val now = Date()
-                                        val calNow = Calendar.getInstance()
-                                        calNow.time = now
+                    val now = Date()
+                    val calNow = Calendar.getInstance()
+                    calNow.time = now
 
-                                        var diff = calNow.get(YEAR) - calBirth.get(YEAR)
-                                        if (calBirth.get(MONTH) > calNow.get(MONTH) ||
-                                                (calBirth.get(MONTH) == calNow.get(MONTH) && calBirth.get(DATE) > calNow.get(DATE))) {
-                                            diff--;
-                                        }
+                    var diff = calNow.get(YEAR) - calBirth.get(YEAR)
+                    if (calBirth.get(MONTH) > calNow.get(MONTH) ||
+                            (calBirth.get(MONTH) == calNow.get(MONTH) && calBirth.get(DATE) > calNow.get(DATE))) {
+                        diff--
+                    }
 
-                                        localUser.age = diff
-                                        localUser.birthday = birthday
+                    localUser.age = diff
+                    localUser.birthday = birthday
 
-                                    } catch (e: Exception) {
+                    if(localUser.age > 21) localUser.startAge = localUser.age - 3
+                    else localUser.startAge = 18
+                    if(localUser.age < 52) localUser.endAge = localUser.age + 3
+                    else localUser.endAge = 55
 
-                                    }
+                    usersRef.child(uid).setValue(localUser)
 
-                                    userRef.child(user.uid).setValue(localUser)
-
-                                    goToMainActivity()
-                                }
-                            })
-                    val parameters = Bundle()
-                    parameters.putString("fields", "first_name,last_name,birthday,gender")
-                    request.parameters = parameters
-                    request.executeAsync()
-                } else {
                     goToMainActivity()
+
+                } catch (e: Exception) {
+
                 }
             }
-
-            override fun onCancelled(error: DatabaseError?) {
-
-            }
         })
+        val parameters = Bundle()
+        parameters.putString("fields", "first_name,last_name,email,birthday,gender,picture.type(large)")
+        request.parameters = parameters
+        request.executeAsync()
     }
 
     private fun goToMainActivity() {

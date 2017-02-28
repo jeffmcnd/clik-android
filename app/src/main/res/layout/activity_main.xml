@@ -21,7 +21,20 @@
             android:layout_alignBottom="@id/user_iv">
 
             <TextView
-                android:id="@+id/user_info_tv"
+                android:id="@+id/user_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:text=", "/>
+
+            <TextView
+                android:id="@+id/user_age_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"/>

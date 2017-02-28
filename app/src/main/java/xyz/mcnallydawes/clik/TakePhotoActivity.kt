@@ -104,7 +104,6 @@ class TakePhotoActivity : Activity() {
                 val picture = Picture()
                 picture.url = it.downloadUrl.toString()
                 picture.expirationDate = Date().time
-                user.pictures.add(picture)
                 userRef.setValue(user)
 
                 val f = File(photoPath)

@@ -11,14 +11,13 @@
 
     <application
         android:name=".MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <activity
             android:name=".LoginActivity"
@@ -32,7 +31,6 @@
 
         <activity android:name=".MainActivity"
             android:label="@string/app_name">
-
         </activity>
 
         <activity android:name=".TakePhotoActivity">
